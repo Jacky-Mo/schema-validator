@@ -1,0 +1,21 @@
+{
+  "name": "schema-validator",
+  "version": "0.1.0",
+  "description": "Validate an object against an user defined schema. If the object satisfies the schema, then a copy of the object that conforms to the schema is returned",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage --verbose",
+    "linter": "eslint src"
+  },
+  "keywords": [
+    "schema validator",
+    "validator",
+    "custom validator"
+  ],
+  "author": "Jacky Mo",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "jest": "^23.4.0"
+  }
+}
