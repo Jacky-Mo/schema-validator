@@ -16,13 +16,21 @@ const createValidationResult = (errors) => {
 };
 
 /**
- * 
+ * Validate schema definition
+ *
+ *  {
+ *		type: pre-defined
+ *    require: bool
+ * 		enum: []
+ * 		match: regex
+ *		schema: object
+ *  }
  */
 
 class SchemaDefinitionValidator {
     constructor() {
         this.defintionQueue = [];
-    }    
+    }
 
     _validate(definition, propertyPrefix) {
         const errors = [];
@@ -65,14 +73,14 @@ class SchemaDefinitionValidator {
 
     isValid(definition) {
         let errors = [];
-        
+
         this.defintionQueue.push({ definition });
-        
+
         while(this.defintionQueue.length > 0) {
             const nextDefinition = this.defintionQueue.shift();
 
             const result = this._validate(nextDefinition, nextDefinition.propertyPrefix);
-        
+
             if(!result.isValid) {
                 errors = errors.concat(result.errors);
             }
