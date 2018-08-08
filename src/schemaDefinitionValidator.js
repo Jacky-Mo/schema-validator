@@ -36,11 +36,11 @@ class SchemaDefinitionValidator {
         const errors = [];
 
         if(!definition.type || !types.includes(definition.type)) {
-            errors.push(createMessage(propertyPrefix, 'type', `'type' property is required and can only contains these values ${types.join()}`));
+            errors.push(createMessage(propertyPrefix, 'type', `'type' property is required and can only contains these values [${types.join()}]`));
         }
 
-        if(!definition.require || (definition.require && typeof(definition.require) !== 'boolean')) {
-            errors.push(createMessage(propertyPrefix, 'require', '\'require\' property is required and it must be a boolean type'));
+        if(('require' in definition) && (typeof(definition.require) !== 'boolean')) {
+            errors.push(createMessage(propertyPrefix, 'require', '\'require\' property must be a boolean type'));
         }
 
         if(definition.type === 'enum') {
@@ -51,8 +51,12 @@ class SchemaDefinitionValidator {
             }
         }
 
-        if(definition.type === 'match' && !('match' in definition)) {
-            errors.push(createMessage(propertyPrefix, 'match', '\'match\' property is required when type = \'match\''));
+        if(definition.type === 'match') {
+            if (!('match' in definition)) {
+                errors.push(createMessage(propertyPrefix, 'match', '\'match\' property is required when type = \'match\''));
+            } else if(typeof(definition.match) !== 'function' && !(definition.match instanceof RegExp)) {
+                errors.push(createMessage(propertyPrefix, 'match', '\'match\' property can only be function or RegExp'));
+            }
         }
 
         if(definition.type === 'object') {
@@ -61,9 +65,13 @@ class SchemaDefinitionValidator {
             } else if (typeof(definition.schema) !== 'object') {
                 errors.push(createMessage(propertyPrefix, 'schema', '\'schema\' property must be an object'));
             } else {
-                this.defintionQueue.push({
-                    propertyPrefix: propertyPrefix ? `${propertyPrefix}.schema` : 'schema',
-                    definition: definition.schema
+                const keys = Object.keys(definition.schema);
+
+                keys.forEach((key) => {
+                    this.defintionQueue.push({
+                        propertyPrefix: propertyPrefix ? `${propertyPrefix}.schema.${key}` : `schema.${key}`,
+                        definition: definition.schema[key]
+                    });
                 });
             }
         }
@@ -71,15 +79,15 @@ class SchemaDefinitionValidator {
         return createValidationResult(errors);
     }
 
-    isValid(definition) {
+    isValid(definition, propertyPrefix = null) {
         let errors = [];
 
-        this.defintionQueue.push({ definition });
+        this.defintionQueue.push({ definition, propertyPrefix});
 
         while(this.defintionQueue.length > 0) {
             const nextDefinition = this.defintionQueue.shift();
 
-            const result = this._validate(nextDefinition, nextDefinition.propertyPrefix);
+            const result = this._validate(nextDefinition.definition, nextDefinition.propertyPrefix);
 
             if(!result.isValid) {
                 errors = errors.concat(result.errors);
