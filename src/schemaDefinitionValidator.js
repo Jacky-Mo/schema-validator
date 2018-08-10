@@ -1,4 +1,4 @@
-const types = ['int', 'float', 'string', 'array', 'enum', 'object', 'match'];
+const types = ['int', 'float', 'bool', 'string', 'array', 'enum', 'object', 'match'];
 
 const createMessage = (propertyPrefix, property, message) => {
     const key = propertyPrefix ? `${propertyPrefix}.${property}` : property;

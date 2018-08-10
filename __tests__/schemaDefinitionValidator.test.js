@@ -8,7 +8,7 @@ describe('schema definition validator', () => {
 
         expect(result.isValid).toBeFalsy();
         expect(result.errors[0].key).toEqual('name.type');
-        expect(result.errors[0].message).toEqual('\'type\' property is required and can only contains these values [int,float,string,array,enum,object,match]');
+        expect(result.errors[0].message).toEqual('\'type\' property is required and can only contains these values [int,float,bool,string,array,enum,object,match]');
     });
 
     it('type prop contains invalid value, return isValid = false and error', () => {
@@ -18,7 +18,7 @@ describe('schema definition validator', () => {
 
         expect(result.isValid).toBeFalsy();
         expect(result.errors[0].key).toEqual('type');
-        expect(result.errors[0].message).toEqual('\'type\' property is required and can only contains these values [int,float,string,array,enum,object,match]');
+        expect(result.errors[0].message).toEqual('\'type\' property is required and can only contains these values [int,float,bool,string,array,enum,object,match]');
     });
 
     it('require prop is not boolean type, return isValid = false and error', () => {
