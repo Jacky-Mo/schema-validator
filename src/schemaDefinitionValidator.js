@@ -1,12 +1,8 @@
+import { createErrorMessage } from './utils';
+
 const types = ['int', 'float', 'bool', 'string', 'array', 'enum', 'object', 'match'];
 
-const createMessage = (propertyPrefix, property, message) => {
-    const key = propertyPrefix ? `${propertyPrefix}.${property}` : property;
-    return {
-        key,
-        message
-    };
-};
+export { types as validDefinitionTypes };
 
 const createValidationResult = (errors) => {
     return {
@@ -36,34 +32,34 @@ class SchemaDefinitionValidator {
         const errors = [];
 
         if(!definition.type || !types.includes(definition.type)) {
-            errors.push(createMessage(propertyPrefix, 'type', `'type' property is required and can only contains these values [${types.join()}]`));
+            errors.push(createErrorMessage(propertyPrefix, 'type', `'type' property is required and can only contains these values [${types.join()}]`));
         }
 
         if(('require' in definition) && (typeof(definition.require) !== 'boolean')) {
-            errors.push(createMessage(propertyPrefix, 'require', '\'require\' property must be a boolean type'));
+            errors.push(createErrorMessage(propertyPrefix, 'require', '\'require\' property must be a boolean type'));
         }
 
         if(definition.type === 'enum') {
             if(!('enum' in definition)) {
-                errors.push(createMessage(propertyPrefix, 'enum', '\'enum\' property is required when type = \'enum\''));
+                errors.push(createErrorMessage(propertyPrefix, 'enum', '\'enum\' property is required when type = \'enum\''));
             } else if (!Array.isArray(definition.enum)) {
-                errors.push(createMessage(propertyPrefix, 'enum', '\'enum\' property must be an array'));
+                errors.push(createErrorMessage(propertyPrefix, 'enum', '\'enum\' property must be an array'));
             }
         }
 
         if(definition.type === 'match') {
             if (!('match' in definition)) {
-                errors.push(createMessage(propertyPrefix, 'match', '\'match\' property is required when type = \'match\''));
+                errors.push(createErrorMessage(propertyPrefix, 'match', '\'match\' property is required when type = \'match\''));
             } else if(typeof(definition.match) !== 'function' && !(definition.match instanceof RegExp)) {
-                errors.push(createMessage(propertyPrefix, 'match', '\'match\' property can only be function or RegExp'));
+                errors.push(createErrorMessage(propertyPrefix, 'match', '\'match\' property can only be function or RegExp'));
             }
         }
 
         if(definition.type === 'object') {
             if(!('schema' in definition)) {
-                errors.push(createMessage(propertyPrefix, 'schema', '\'schema\' property is required when type = \'object\''));
+                errors.push(createErrorMessage(propertyPrefix, 'schema', '\'schema\' property is required when type = \'object\''));
             } else if (typeof(definition.schema) !== 'object') {
-                errors.push(createMessage(propertyPrefix, 'schema', '\'schema\' property must be an object'));
+                errors.push(createErrorMessage(propertyPrefix, 'schema', '\'schema\' property must be an object'));
             } else {
                 const keys = Object.keys(definition.schema);
 
