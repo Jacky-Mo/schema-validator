@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage --verbose",
-    "linter": "eslint src"
+    "linter": "eslint src __tests__"
   },
   "keywords": [
     "schema validator",

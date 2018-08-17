@@ -103,10 +103,15 @@ class ValueParser {
     }
 
     parse(fieldName, value, definition) {
+        // Set default require to true if it is not provided in the definition
+        if(!('require' in definition)) {
+            definition.require = true;
+        }
+
         // value does not exist
         // Handle require and default
         if(value === null || value === undefined) {
-            if((definition.require && definition.require === true)) {
+            if((definition.require && definition.require === true && !('default' in definition))) {
                 return this._createReturnObj(createErrorMessage(null, fieldName, 'is required, but value is null or undefined'));
             } else {
                 return this._createReturnObj(null, 'default' in definition ? definition.default: null);

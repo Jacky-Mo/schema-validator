@@ -15,6 +15,20 @@ describe('ValueParser', () => {
     });
 
     describe('require', () => {
+        it('no require prop provided, default require = true is used, return isValid = false', () => {
+            const value = null;
+            const definition = { type: 'int' };
+
+            const result = parser.parse('field-name', value, definition);
+
+            expect(result.isValid).toBeFalsy();
+            expect(result.errors).toEqual([
+                {
+                    key: 'field-name',
+                    message: 'is required, but value is null or undefined'
+                }]);
+        });
+
         it('required and field is null, return isValid = false', () => {
             const value = null;
             const definition = { type: 'int', require: true };
@@ -42,7 +56,18 @@ describe('ValueParser', () => {
             }]);
         });
 
-        it('NOT required, field = null and HAS default value, return isValid = true with default value', () => {
+        it('NOT require prop, field = null and HAS default value, return isValid = true with default value', () => {
+            const value = null;
+            const definition = { type: 'int', default: 1 };
+
+            const result = parser.parse('field-name', value, definition);
+
+            expect(result.isValid).toBeTruthy();
+            expect(result.errors).toBeUndefined();
+            expect(result.value).toEqual(1);
+        });
+
+        it('require = false, field = null and HAS default value, return isValid = true with default value', () => {
             const value = null;
             const definition = { type: 'int', require: false, default: 1 };
 
