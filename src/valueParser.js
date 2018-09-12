@@ -23,6 +23,10 @@ class ValueParser {
     _parseInt(fieldName, value) {
         if(typeof(value) === 'number' && Number.isInteger(value)) {
             return this._createReturnObj(null, value);
+        } else if(typeof(value) === 'string' && /^\d+$/.test(value)) {
+            const integer = Number.parseInt(value);
+
+            return this._createReturnObj(null, integer);
         }
         return this._createReturnObj(createErrorMessage(null, fieldName, 'not valid integer'));
     }
@@ -30,6 +34,10 @@ class ValueParser {
     _parseFloat(fieldName, value) {
         if(typeof(value) === 'number') {
             return this._createReturnObj(null, value);
+        } else if(typeof(value) === 'string' && /^\d+[.]?\d*$/.test(value)) {
+            const floatNumber = Number.parseFloat(value);
+
+            return this._createReturnObj(null, floatNumber);
         }
         return this._createReturnObj(createErrorMessage(null, fieldName, 'not valid float'));
     }
@@ -37,6 +45,14 @@ class ValueParser {
     _parseBoolean(fieldName, value) {
         if(typeof(value) === 'boolean') {
             return this._createReturnObj(null, value);
+        } else if(typeof(value) === 'string') {
+            const strVal = value.toLowerCase();
+
+            if(strVal === 'true') {
+                return this._createReturnObj(null, true);
+            } else if(strVal === 'false') {
+                return this._createReturnObj(null, false);
+            }
         }
         return this._createReturnObj(createErrorMessage(null, fieldName, 'not valid boolean'));
     }

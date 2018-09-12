@@ -92,7 +92,7 @@ describe('ValueParser', () => {
 
     describe('int type', () => {
         it('not number, return isValid = false', () => {
-            const value = '1';
+            const value = 'a';
             const definition = { type: 'int' };
 
             const result = parser.parse('field-name', value, definition);
@@ -126,11 +126,21 @@ describe('ValueParser', () => {
             expect(result.isValid).toBeTruthy();
             expect(result.value).toEqual(2);
         });
+
+        it('valid string integer, return isValid = true', () => {
+            const value = '234';
+            const definition = { type: 'int' };
+
+            const result = parser.parse('field-name', value, definition);
+
+            expect(result.isValid).toBeTruthy();
+            expect(result.value).toEqual(234);
+        });
     });
 
     describe('float type', () => {
         it('not number, return isValid = false', () => {
-            const value = '1';
+            const value = 'abe';
             const definition = { type: 'float' };
 
             const result = parser.parse('field-name', value, definition);
@@ -161,6 +171,16 @@ describe('ValueParser', () => {
             expect(result.isValid).toBeTruthy();
             expect(result.value).toEqual(2.5);
         });
+
+        it('valid number as string, return isValid = true', () => {
+            const value = '2.534';
+            const definition = { type: 'float' };
+
+            const result = parser.parse('field-name', value, definition);
+
+            expect(result.isValid).toBeTruthy();
+            expect(result.value).toEqual(2.534);
+        });
     });
 
     describe('boolean type', () => {
@@ -177,7 +197,7 @@ describe('ValueParser', () => {
             }]);
         });
 
-        it('valid boolean, return isValid = true', () => {
+        it('valid boolean false, return isValid = true', () => {
             const value = false;
             const definition = { type: 'bool' };
 
@@ -185,6 +205,36 @@ describe('ValueParser', () => {
 
             expect(result.isValid).toBeTruthy();
             expect(result.value).toEqual(false);
+        });
+
+        it('valid boolean true, return isValid = true', () => {
+            const value = true;
+            const definition = { type: 'bool' };
+
+            const result = parser.parse('field-name', value, definition);
+
+            expect(result.isValid).toBeTruthy();
+            expect(result.value).toEqual(true);
+        });
+
+        it('valid boolean false as string with mixed casing, return isValid = true', () => {
+            const value = 'False';
+            const definition = { type: 'bool' };
+
+            const result = parser.parse('field-name', value, definition);
+
+            expect(result.isValid).toBeTruthy();
+            expect(result.value).toEqual(false);
+        });
+
+        it('valid boolean true as string with all lowercase, return isValid = true', () => {
+            const value = 'true';
+            const definition = { type: 'bool' };
+
+            const result = parser.parse('field-name', value, definition);
+
+            expect(result.isValid).toBeTruthy();
+            expect(result.value).toEqual(true);
         });
     });
 
@@ -427,7 +477,7 @@ describe('ValueParser', () => {
             const value = {
                 description: 'abc',
                 child: {
-                    id: '1',
+                    id: 'a',
                     age: 12
                 }
             };
@@ -493,7 +543,7 @@ describe('ValueParser', () => {
             const value = {
                 description: 'abc',
                 child: {
-                    id: '1',
+                    id: 'abc',
                     age: 12,
                     address: {
                         zipCode: 12233,
