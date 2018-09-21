@@ -2,10 +2,10 @@
 ##### This validation library allows user to validate wheather an object meets the declarative defined schema defintion. If the object satisfies the schema definition, an object is returned that confined to the schema.
 
 ## Installation and Usage
-Install the library with `npm install --save schema-validator` or `yarn install schema-validator`
+Install the library with `npm install --save @jackym/schema-validator` or `yarn add @jackym/schema-validator`
 
 ```javascript
-import schemaValidator from 'schema-validator';
+import schemaValidator from '@jackym/schema-validator';
 const obj = {};
 const defintion = {
     name: { type: 'string' },
@@ -61,7 +61,7 @@ const definition = {
 
     /*
     * (Optional)
-    * if the field is required, and the value is null or underfined, then you can provide a default value 
+    * if the field is required, and the value is null or underfined, then you can provide a default value
     * to suppress the validation error message
     */
     default: 'any value'
