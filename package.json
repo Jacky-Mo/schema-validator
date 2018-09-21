@@ -1,8 +1,9 @@
 {
   "name": "schema-validator",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Validate an object against an user defined schema. If the object satisfies the schema, then a copy of the object that conforms to the schema is returned",
-  "main": "index.js",
+  "main": "dist/index-cjs.js",
+  "module": "dist/index-esm.js",
   "scripts": {
     "test": "jest --coverage --verbose",
     "linter": "eslint src __tests__",
@@ -13,6 +14,10 @@
     "validator",
     "custom validator"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jacky-Mo/schema-validator.git"
+  },
   "author": "Jacky Mo",
   "license": "MIT",
   "devDependencies": {

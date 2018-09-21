@@ -4,11 +4,11 @@ import babel from 'rollup-plugin-babel';
 export default {
     input: 'src/schemaValidator.js',
     output: [{
-        file: 'dist/index.cjs.js',
+        file: 'dist/index-cjs.js',
         format: 'cjs'
     },
     {
-        file: 'dist/index.esm.js',
+        file: 'dist/index-esm.js',
         format: 'esm'
     }],
     plugins: [
