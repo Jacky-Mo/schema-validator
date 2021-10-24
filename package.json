@@ -1,6 +1,6 @@
 {
   "name": "@jackym/schema-validator",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Validate an object against an user defined schema. If the object satisfies the schema, then a copy of the object that conforms to the schema is returned",
   "main": "dist/index-cjs.js",
   "module": "dist/index-esm.js",
